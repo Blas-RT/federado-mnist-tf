@@ -27,7 +27,6 @@ FEDERADO-MNIST/
 │
 ├── evaluate_models.ipynb           # Evaluación de modelos globales y locales
 ├── split_data.ipynb                # División del dataset en subconjuntos
-├── main.py                         # Script de integración general (opcional)
 ├── README.md
 ├── .gitignore
 ├── pyproject.toml
