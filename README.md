@@ -14,9 +14,10 @@ FEDERADO-MNIST/
 ├── datos_confidenciales/            # Subconjuntos locales de datos (fuera del repo público)
 │
 ├── federated_aggregation/           # Estrategias de agregación federada
-│   ├── FedAvg.py
-│   ├── FedMedian.py
-│   └── FedWeighted.py
+│   ├── FedAvg.py                    # Promedio simple
+│   ├── FedMedian.py                 # Mediana por peso
+│   ├── FedWeighted.py               # Promedio ponderado
+│   └── FedTrimmedMean.py            # Promedio recortado
 │
 ├── local_training/                  # Entrenamiento local por cliente
 │   ├── client_model_0.keras
@@ -43,17 +44,19 @@ En `split_data.ipynb` se divide el dataset **MNIST** en `n` subconjuntos estadí
 En `local_training/LocalTrain.ipynb`, cada cliente entrena su propio modelo usando **solo su partición de datos**. El modelo entrenado se guarda como un archivo `.keras` (ej. `client_model_0.keras`).
 
 ### Agregación Federada
-En `federated_aggregation/` se encuentran tres métodos de agregación para combinar los modelos locales entrenados:
+En `federated_aggregation/` se implementan **cuatro métodos de agregación** para combinar los modelos locales entrenados:
 
-- `FedAvg.py`: Promedio simple de pesos (`FedAvg`).
-- `FedMedian.py`: Mediana por cada peso (`FedMedian`).
-- `FedWeighted.py`: Promedio ponderado según la cantidad de datos por cliente (`FedWeighted`).
+- `FedAvg.py`: **Promedio simple de pesos**. Es el método base, promedia directamente todos los pesos locales.
+- `FedMedian.py`: **Mediana por cada peso**. Reduce la sensibilidad a valores extremos.
+- `FedWeighted.py`: **Promedio ponderado** considerando el número de muestras utilizadas por cada cliente.
+- `FedTrimmedMean.py`: **Promedio recortado**, que descarta los valores más altos y bajos antes de promediar para reducir el impacto de *extremos*.
 
 ### Evaluación Global y Local
 En `evaluate_models.ipynb` se evalúan todos los modelos disponibles:
 
-- Modelos locales entrenados por cada cliente.
-- Modelos globales obtenidos mediante cada estrategia de agregación.
+- Modelos **locales entrenados individualmente**.
+- Modelos **globales** obtenidos mediante cada estrategia de agregación.
+- Se reportan métricas como **accuracy**, **precision**, **recall**, **F1-score**.
 
 ---
 
@@ -66,3 +69,4 @@ Comparar el rendimiento de diferentes estrategias de agregación de modelos en u
 ## Notas
 
 - Los datos particionados (`.npz`) **no deben subirse al repositorio** por temas de privacidad simulada.
+- Este proyecto emula un entorno real de *federated learning*, preservando la privacidad al no compartir datos directamente.
