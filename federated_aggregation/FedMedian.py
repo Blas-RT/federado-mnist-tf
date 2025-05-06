@@ -1,9 +1,21 @@
+
+"""
+FedMedian (Federated Median)
+
+Este método toma la mediana de cada peso en la misma posición entre todos los modelos locales. Es menos sensible 
+a valores atípicos (outliers) en los pesos y puede mejorar la estabilidad cuando algunos clientes tienen datos 
+ruidosos o distribuciones distintas.
+"""
+
 import os
 import numpy as np
 import tensorflow as tf
 from sklearn.metrics import classification_report
 from tensorflow.keras.models import load_model
-from models.TheModel import build
+import sys
+
+sys.path.append(os.path.abspath('../models'))
+from TheModel import build
 
 # Cargar modelos locales
 model_dir = "../local_training"

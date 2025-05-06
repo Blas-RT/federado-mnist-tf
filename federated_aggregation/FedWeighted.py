@@ -1,9 +1,21 @@
+
+"""
+FedWeighted (Federated Weighted Averaging)
+
+Este método realiza un promedio ponderado de los pesos de los modelos locales, donde cada cliente contribuye 
+proporcionalmente al tamaño de su dataset local. Es útil cuando los clientes tienen cantidades de datos 
+significativamente distintas. Si todos los tamaños son iguales, este método se comporta igual que FedAvg.
+"""
+
 import os
 import numpy as np
 import tensorflow as tf
 from sklearn.metrics import classification_report
 from tensorflow.keras.models import load_model
-from models.TheModel import build
+import sys
+
+sys.path.append(os.path.abspath('../models'))
+from TheModel import build
 
 # Datos de tamaños por cliente (ajusta si cambias los splits)
 num_examples = [12000, 12000, 12000, 12000, 12000]  # Total: 60000

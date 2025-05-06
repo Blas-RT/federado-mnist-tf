@@ -1,9 +1,20 @@
+
+"""
+FedAvg (Federated Averaging)
+
+Este método realiza un promedio simple de los pesos de los modelos locales entrenados por cada cliente.
+Asume que todos los clientes tienen datasets similares y contribuyen equitativamente al modelo global.
+"""
+
 import os
 import numpy as np
 import tensorflow as tf
-from TheModel import build
 from sklearn.metrics import classification_report
 from tensorflow.keras.models import load_model
+import sys
+
+sys.path.append(os.path.abspath('../models'))
+from TheModel import build
 
 # Configura la ruta a modelos locales
 model_dir = "../local_training"
